@@ -1,1 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebForce — User Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a14;
+    --bg2: #0e0e1a;
+    --card: #131320;
+    --card2: #1a1a2a;
+    --border: rgba(127,119,221,0.15);
+    --border2: rgba(127,119,221,0.08);
+    --purple: #7F77DD;
+    --purple-dim: rgba(127,119,221,0.12);
+    --purple-mid: rgba(127,119,221,0.25);
+    --text: #e8e8f0;
+    --text2: #9494a8;
+    --text3: #555566;
+    --success: #1D9E75;
+    --warning: #BA7517;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 0.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 0.5px solid var(--border2);
+  }
+
+  .logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--purple-dim);
+    border: 0.5px solid var(--border);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-icon svg { width: 16px; height: 16px; }
+
+  .logo-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.02em;
+  }
+
+  .nav {
+    padding: 16px 12px;
+    flex: 1;
+  }
+
+  .nav-section {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 12px 6px;
+  }
+
+  .nav a {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: all 0.15s;
+    margin-bottom: 1px;
+  }
+
+  .nav a:hover { background: var(--purple-dim); color: var(--text); }
+  .nav a.active { background: var(--purple-dim); color: var(--purple); }
+
+  .nav-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--text3);
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .nav a:hover .nav-dot,
+  .nav a.active .nav-dot { background: var(--purple); }
+
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 0.5px solid var(--border2);
+  }
+
+  .pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--purple-dim);
+    border: 0.5px solid var(--border);
+    color: var(--purple);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 64px 60px;
+    border-bottom: 0.5px solid var(--border2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(127,119,221,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px; height: 1px;
+    background: var(--purple);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 16px;
+    max-width: 600px;
+  }
+
+  .hero h1 span { color: var(--purple); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text2);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 99px;
+    border: 0.5px solid var(--border);
+    background: var(--card);
+    color: var(--text2);
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    padding: 0 64px 80px;
+    max-width: 860px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 56px 0 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .section-num {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: var(--purple-dim);
+    border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple);
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .section h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    margin: 32px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section h3::before {
+    content: '';
+    display: block;
+    width: 3px; height: 16px;
+    background: var(--purple);
+    border-radius: 99px;
+  }
+
+  p { color: var(--text2); margin-bottom: 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--purple-dim);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card p { margin-bottom: 0; font-size: 14px; }
+
+  /* ── TRIGGER GRID ── */
+  .trigger-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .trigger-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .trigger-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .trigger-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .trigger-desc {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  /* ── COMMAND GRID ── */
+  .command-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .command-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  .command-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--purple);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .command-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* ── STEPS ── */
+  .steps {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px; top: 32px;
+    width: 1px;
+    height: calc(100% + 0px);
+    background: var(--border);
+  }
+
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--card2);
+    border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple);
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    z-index: 1;
+  }
+
+  .step-body {
+    padding: 6px 0 24px;
+    flex: 1;
+  }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 20px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border: 0.5px solid;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .callout.tip {
+    background: rgba(29,158,117,0.06);
+    border-color: rgba(29,158,117,0.2);
+    color: #6ecfab;
+  }
+
+  .callout.warning {
+    background: rgba(186,117,23,0.06);
+    border-color: rgba(186,117,23,0.2);
+    color: #d4a85a;
+  }
+
+  .callout.info {
+    background: var(--purple-dim);
+    border-color: var(--border);
+    color: var(--text2);
+  }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── VIDEO ── */
+  .video-embed {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    margin: 20px 0;
+    background: var(--card);
+    position: relative;
+    padding-top: 56.25%;
+  }
+
+  .video-embed iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  .video-label {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ── EFFECTS GRID ── */
+  .effects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .effect-item {
+    background: var(--card);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .effect-item::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--purple);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 20px 0;
+  }
+
+  .disclaimer-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .disclaimer ol {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .disclaimer li {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .disclaimer li strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+
+  /* ── OVERLAY EXPLAINER ── */
+  .overlay-diagram {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+
+  .overlay-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border2);
+    font-size: 13px;
+  }
+
+  .overlay-row:last-child { border-bottom: none; }
+
+  .overlay-label {
+    width: 120px;
+    color: var(--text3);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  .overlay-val { color: var(--text2); flex: 1; }
+
+  .overlay-rec {
+    font-size: 11px;
+    color: var(--purple);
+    font-weight: 500;
+    background: var(--purple-dim);
+    padding: 2px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 0.5px;
+    background: var(--border2);
+    margin: 48px 0 0;
+  }
+
+  /* ── MOBILE NAV ── */
+  .mobile-nav-toggle {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--card2);
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    align-items: center; justify-content: center;
+  }
+
+  /* ── SCROLL ANIMATION ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
+    .sidebar.open { transform: none; }
+    .main { margin-left: 0; }
+    .hero { padding: 60px 24px 40px; }
+    .hero h1 { font-size: 32px; }
+    .content { padding: 0 24px 60px; }
+    .trigger-grid { grid-template-columns: 1fr; }
+    .command-grid { grid-template-columns: 1fr; }
+    .effects-grid { grid-template-columns: 1fr; }
+    .mobile-nav-toggle { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 2L14 5.5V10.5L8 14L2 10.5V5.5L8 2Z" stroke="#7F77DD" stroke-width="1.2" stroke-linejoin="round"/>
+          <circle cx="8" cy="8" r="2" fill="#7F77DD" opacity="0.6"/>
+        </svg>
+      </div>
+      <span class="logo-name">WEBFORCE</span>
+    </div>
+    <div class="logo-sub">User Guide</div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-section">Getting Started</div>
+    <a href="#disclaimer" class="nav-link"><span class="nav-dot"></span>Disclaimer</a>
+    <a href="#onboarding" class="nav-link"><span class="nav-dot"></span>Onboarding</a>
+
+    <div class="nav-section">Core Concepts</div>
+    <a href="#how-it-works" class="nav-link"><span class="nav-dot"></span>How it works</a>
+    <a href="#triggers" class="nav-link"><span class="nav-dot"></span>Triggers</a>
+    <a href="#commands" class="nav-link"><span class="nav-dot"></span>Commands</a>
+
+    <div class="nav-section">Using the App</div>
+    <a href="#setup" class="nav-link"><span class="nav-dot"></span>Setting up an effect</a>
+    <a href="#presets" class="nav-link"><span class="nav-dot"></span>Presets</a>
+    <a href="#impromptu" class="nav-link"><span class="nav-dot"></span>Impromptu setup</a>
+
+    <div class="nav-section">Effect Tutorials</div>
+    <a href="#google-images" class="nav-link"><span class="nav-dot"></span>Google image force</a>
+    <a href="#wikipedia" class="nav-link"><span class="nav-dot"></span>Wikipedia word force</a>
+    <a href="#spotify" class="nav-link"><span class="nav-dot"></span>Spotify song force</a>
+    <a href="#instagram" class="nav-link"><span class="nav-dot"></span>Instagram force</a>
+    <a href="#maps" class="nav-link"><span class="nav-dot"></span>Google Maps force</a>
+
+    <div class="nav-section">Ideas</div>
+    <a href="#ideas" class="nav-link"><span class="nav-dot"></span>More effect ideas</a>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="pill-badge">
+      <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="#7F77DD"/></svg>
+      v1.6.0
+    </span>
+  </div>
+</nav>
+
+<!-- MOBILE TOGGLE -->
+<button class="mobile-nav-toggle" id="navToggle" onclick="toggleNav()">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M2 4h12M2 8h12M2 12h12" stroke="#7F77DD" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Master the<br><span>force.</span></h1>
+    <p class="hero-sub">Everything you need to set up WebForce, configure your presets, and perform impossible effects — from your first install to advanced routines.</p>
+    <div class="hero-tags">
+      <span class="tag">Triggers</span>
+      <span class="tag">Overlay</span>
+      <span class="tag">Presets</span>
+      <span class="tag">Effect tutorials</span>
+      <span class="tag">Advanced techniques</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DISCLAIMER -->
+    <div class="section fade-in" id="disclaimer">
+      <div class="section-header">
+        <div class="section-num">!</div>
+        <h2>Disclaimer</h2>
+      </div>
+      <div class="disclaimer">
+        <div class="disclaimer-title">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="#555566" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Safety & Disclaimer
+        </div>
+        <ol>
+          <li><strong>Intended Use Only</strong>WebForce is designed solely as a performance tool for entertainment and magic. Do not use the app for deception outside of an entertainment context.</li>
+          <li><strong>Data & Privacy</strong>WebForce does not collect, store, or share spectator data. Never input sensitive spectator information into the app.</li>
+          <li><strong>Device Safety</strong>The app requires overlay, accessibility, and vibration permissions to function. These are standard and safe. Continuous background use may drain your battery — ensure your device is charged before performing.</li>
+          <li><strong>Limitations</strong>Requires an active internet connection to open URLs. The "Flip facedown" trigger only works on flat, stationary surfaces. Some effects may change due to third-party platform updates.</li>
+          <li><strong>Performance Ethics</strong>Always present WebForce as part of a magical experience. Respect your spectators — never embarrass, coerce, or exploit them.</li>
+          <li><strong>Liability</strong>The creators assume no responsibility for misuse. Use is entirely at the performer's discretion and risk.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ONBOARDING -->
+    <div class="section fade-in" id="onboarding">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2>Onboarding</h2>
+      </div>
+
+      <p>Once the app has been installed, open WebForce and tap the purple <strong>+</strong> button. You'll be prompted to grant two permissions.</p>
+
+      <div class="callout info">
+        <span class="callout-icon">🔐</span>
+        <div><strong style="color:var(--text)">Two permissions are required:</strong> "Appear on top" and "Enable Volume detection". Both are needed for full functionality and neither invades user privacy.</div>
+      </div>
+
+      <p>Tap <strong>Allow now</strong> on both permission prompts. Once granted, the app is ready to use.</p>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/9LNYY4_KQNg" allowfullscreen title="WebForce onboarding walkthrough"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Video walkthrough — full onboarding guide
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section fade-in" id="how-it-works">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>How it works</h2>
+      </div>
+
+      <p>WebForce runs entirely in the background — it never visibly appears during a performance. You pre-load a forced URL into the app. When running, it listens for a <strong>triggering sequence</strong> and executes a <strong>command</strong> in response.</p>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 5.5V10.5L8 14L2 10.5V5.5L8 2Z" stroke="#7F77DD" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" fill="#7F77DD" opacity="0.5"/></svg>
+          </div>
+          Two elements in play
+        </div>
+        <p>Every effect relies on a <strong>trigger</strong> (how the app is activated) and a <strong>command</strong> (what happens once activated). Configure both before performing.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TRIGGERS -->
+    <div class="section fade-in" id="triggers">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>Triggers</h2>
+      </div>
+
+      <p>The trigger is activated either just before handing the phone to the spectator, or right after they make their selection. Choose the method that fits your performance style.</p>
+
+      <div class="trigger-grid">
+        <div class="trigger-card">
+          <span class="trigger-icon">📳</span>
+          <div class="trigger-name">Shake</div>
+          <div class="trigger-desc">Shake the phone to trigger. Conceal with a natural arm gesture or by pointing at something.</div>
+        </div>
+        <div class="trigger-card">
+          <span class="trigger-icon">🔄</span>
+          <div class="trigger-name">Flip facedown</div>
+          <div class="trigger-desc">Place the phone facedown on a flat, stationary surface for 4–5 seconds. Works hands-free in the spectator's hands.</div>
+        </div>
+        <div class="trigger-card">
+          <span class="trigger-icon">🔊</span>
+          <div class="trigger-name">Volume up</div>
+          <div class="trigger-desc">Press the volume up button. Clean and discreet. The phone's actual volume is unaffected.</div>
+        </div>
+      </div>
+
+      <h3>Shake sensitivity</h3>
+      <p>The shake sensitivity threshold is customisable. Slide the sensitivity bar in the setup page to control how hard a shake is needed. You can test it live — the phone vibrates when the shake strength crosses the threshold.</p>
+
+      <div class="callout tip">
+        <span class="callout-icon">✓</span>
+        <div>An optional <strong>vibration indicator</strong> is available for Shake and Volume up — it vibrates the phone in your hand to confirm the trigger fired successfully during the effect.</div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠</span>
+        <div>Flip facedown only works on a <strong>flat, stationary surface</strong>. Simply turning the phone upside down will not trigger it — this is intentional to prevent accidental activations.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COMMANDS -->
+    <div class="section fade-in" id="commands">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>Commands</h2>
+      </div>
+
+      <p>Once the trigger fires, the app executes one of two commands. Choose based on whether the spectator is scrolling or tapping to make their selection.</p>
+
+      <div class="command-grid">
+        <div class="command-card">
+          <div class="command-name">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#7F77DD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Open URL immediately
+          </div>
+          <div class="command-desc">Instantly opens the pre-loaded URL once triggered. Best for effects where the spectator only scrolls — no tapping involved.</div>
+        </div>
+        <div class="command-card">
+          <div class="command-name">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#7F77DD" stroke-width="1.2"/><circle cx="8" cy="8" r="2" fill="#7F77DD" opacity="0.5"/></svg>
+            Enable overlay
+          </div>
+          <div class="command-desc">Casts an invisible full-screen button. When the spectator taps anywhere, the forced URL opens. Scrolling temporarily dismisses the overlay.</div>
+        </div>
+      </div>
+
+      <h3>Understanding the overlay</h3>
+      <p>The overlay is a transparent button covering the entire screen. Once the trigger fires, it activates. When the spectator scrolls, it dismisses for the configured duration (0.3s–5.0s), then reappears automatically.</p>
+
+      <div class="overlay-diagram">
+        <div class="overlay-row">
+          <div class="overlay-label">Screen facedown</div>
+          <div class="overlay-val">Use a shorter dismissal duration so the overlay reactivates quickly between scrolls.</div>
+          <div class="overlay-rec">0.3s – 1.5s</div>
+        </div>
+        <div class="overlay-row">
+          <div class="overlay-label">Screen face up</div>
+          <div class="overlay-val">Use a longer duration so scrolls register naturally on the phone. Ensure enough pause before the spectator taps.</div>
+          <div class="overlay-rec">2.0s – 5.0s</div>
+        </div>
+        <div class="overlay-row">
+          <div class="overlay-label">Practice mode</div>
+          <div class="overlay-val">Select the grey overlay colour in setup to make the overlay visible — lets you observe exactly when it activates and dismisses.</div>
+          <div class="overlay-rec">Grey colour</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠</span>
+        <div>Always ensure enough time passes between the spectator's <strong>last scroll</strong> and their <strong>tap</strong>. If they tap immediately after scrolling, the overlay may still be dismissed and the force won't fire.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SETUP -->
+    <div class="section fade-in" id="setup">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>Setting up an effect</h2>
+      </div>
+
+      <p>There are two ways to deploy WebForce — saving a preset for repeated use, or activating on the spot for impromptu performances.</p>
+
+      <h3 id="presets">Saving a preset</h3>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Tap the + button</div>
+            <div class="step-desc">From the presets screen, tap the purple + button to open the setup page.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Enter the force URL and configure settings</div>
+            <div class="step-desc">Paste your force URL, select a trigger method, and choose your command (Open URL or Overlay). Adjust sensitivity and timeout as needed.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Tap "Save as preset" and name it</div>
+            <div class="step-desc">Give the preset a meaningful name — for a Wikipedia word force, include the forced word and article name so you remember what to search for during performance.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">To perform, tap the preset</div>
+            <div class="step-desc">Selecting a saved preset arms the effect and hides the app automatically. The effect has started.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <div>You can sort presets by recently edited, alphabetically, or in a custom order. Search is also available to quickly find a specific preset during performance.</div>
+      </div>
+
+      <h3 id="impromptu">Impromptu setup</h3>
+      <p>Follow the same steps as saving a preset, but instead of "Save as preset", tap <strong>Activate without saving</strong>. The app hides itself and the effect begins immediately. Note that the configuration will not be saved after performing.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- EFFECT TUTORIALS -->
+    <div class="section fade-in" id="google-images">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2>Effect tutorials</h2>
+      </div>
+
+      <h3>Google image force <span style="font-size:12px;color:var(--success);font-weight:400;margin-left:6px;">Easy</span></h3>
+      <p>Force any image from a Google Images search. The spectator scrolls through real results and taps freely — but always lands on your chosen image.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Copy the shareable URL of your forced image</div>
+            <div class="step-desc">Paste it into WebForce. Select <strong>Shake</strong> or <strong>Volume up</strong> as trigger and <strong>Enable overlay</strong> as command.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Introduce the phone and search the category</div>
+            <div class="step-desc">Show the spectator genuine images (e.g. search "landmarks" if forcing the Eiffel Tower). Let them see the variety.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Activate the trigger just before handing over</div>
+            <div class="step-desc">Shake or press volume up. The overlay is now active.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Instruct the spectator to scroll facedown and tap</div>
+            <div class="step-desc">Ensure the dismissal duration has passed after their last scroll before they tap. The forced image opens.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/tEyoZY7xAlQ" allowfullscreen title="Google image force tutorial"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Tutorial — Google image force
+      </div>
+    </div>
+
+    <!-- WIKIPEDIA -->
+    <div class="section fade-in" id="wikipedia">
+      <h3>Wikipedia word force <span style="font-size:12px;color:var(--warning);font-weight:400;margin-left:6px;">Advanced</span></h3>
+      <p>Force a specific word from a Wikipedia article. The spectator scrolls to a "random" spot, places the phone down, and the article switches invisibly to show your forced word at the top.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Find a Wikipedia article with large blocks of text</div>
+            <div class="step-desc">Choose an article with minimal images. A good starting point: <a href="https://en.m.wikipedia.org/wiki/History_of_Poland_(1945%E2%80%931989)" target="_blank" style="color:var(--purple)">History of Poland (1945–1989)</a></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Highlight a comma or full stop near your target word</div>
+            <div class="step-desc">Pick something small and discreet. The highlight anchors the share URL to that exact position in the article.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Tap Share and copy the URL</div>
+            <div class="step-desc">Open the URL in a browser and check which word appears at the top of the page — that is your forced word.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Configure: Flip facedown + Open URL immediately</div>
+            <div class="step-desc">Paste the URL into WebForce. The flip facedown trigger fires passively while the spectator places the phone down — no action required from you.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Perform: let them scroll to a random spot, then place the phone down</div>
+            <div class="step-desc">Guide them: "Scroll somewhere random with a bunch of words — avoid pictures. Once you feel like you've landed somewhere random, just put the phone down." The switch happens in the 10 seconds they place it on the table. Use this time to recap the selection process.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">✓</span>
+        <div>If the forced word is too short or weak, try highlighting a different comma in the article. It's a trial-and-error process — keep going until you get a strong word.</div>
+      </div>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/Hs53bjOarqg" allowfullscreen title="Wikipedia word force tutorial"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Tutorial — Wikipedia word force
+      </div>
+    </div>
+
+    <!-- SPOTIFY -->
+    <div class="section fade-in" id="spotify">
+      <h3>Spotify song force</h3>
+      <p>Force virtually any song on Spotify. Spotify Premium is required so any track can play on demand. Choose a well-known song — an unfamiliar track weakens the impact.</p>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/naeq_kK27oA" allowfullscreen title="Spotify song force tutorial"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Tutorial — Spotify song force
+      </div>
+    </div>
+
+    <!-- INSTAGRAM -->
+    <div class="section fade-in" id="instagram">
+      <h3>Instagram account force</h3>
+      <p>Force a spectator to land on a specific Instagram account. This effect can be performed with the phone face up — use a longer dismissal duration so scrolling feels natural. When the spectator taps, ensure they make eye contact with you so they don't notice the mismatch.</p>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/bjUC6oltxSE" allowfullscreen title="Instagram account force tutorial"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Tutorial — Instagram account force
+      </div>
+    </div>
+
+    <!-- MAPS -->
+    <div class="section fade-in" id="maps">
+      <h3>Google Maps location force</h3>
+      <p>Force any country, city, or landmark on Google Maps. Not limited to countries — works for any location. Ensure the phone faces down during the selection.</p>
+
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/FVMaWOmc9gU" allowfullscreen title="Google Maps location force tutorial"></iframe>
+      </div>
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#555566" stroke-width="1.2"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#555566"/></svg>
+        Tutorial — Google Maps location force
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- IDEAS -->
+    <div class="section fade-in" id="ideas">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <h2>More effect ideas</h2>
+      </div>
+      <p>WebForce works with any URL. Here are starting points — with creativity, the limits are yours to set.</p>
+
+      <div class="effects-grid">
+        <div class="effect-item">Force a celebrity on Google Images</div>
+        <div class="effect-item">Force a landmark on Google Images</div>
+        <div class="effect-item">Force a TikTok video on the For You page</div>
+        <div class="effect-item">Force an Instagram account</div>
+        <div class="effect-item">Force a YouTube video</div>
+        <div class="effect-item">Force a travel destination</div>
+        <div class="effect-item">Force a Spotify song</div>
+        <div class="effect-item">Force a Wikipedia article</div>
+        <div class="effect-item">Force a word in an article</div>
+        <div class="effect-item">Force a region on Google Maps</div>
+        <div class="effect-item">Force a note in the Notes app</div>
+        <div class="effect-item">Force a star sign quiz result</div>
+        <div class="effect-item">Force a personality type (MBTI)</div>
+        <div class="effect-item">Force a name in WhatsApp / Telegram</div>
+        <div class="effect-item">Force an item on a shopping site</div>
+        <div class="effect-item">Force a movie on Netflix</div>
+      </div>
+
+      <div class="callout info" style="margin-top:32px;">
+        <span class="callout-icon">⚡</span>
+        <div>All video tutorials and performance footage are available in the <a href="https://drive.google.com/drive/folders/1f9qUZbN3zgcSeDgqF2-GiGm1gu2f9dPj" target="_blank" style="color:var(--purple)">WebForce Resources folder</a>.</div>
+        <a href="./Privacy-Policy/" style="color: var(--purple);">Privacy Policy</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // Mobile nav
+  function toggleNav() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Fade-in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  faders.forEach(f => fadeObserver.observe(f));
+</script>
+
+</body>
+</html>
